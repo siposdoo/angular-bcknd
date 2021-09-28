@@ -1,0 +1,35 @@
+<div class="row justify-content-center mt-5">
+    <div *ngIf="event" class="col-md-4">
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Title</label>
+            <input  class="form-control" [(ngModel)]="event.title" type="text" formControlName="title" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Date</label>
+            <input class="form-control" [(ngModel)]="event.date" type="text" formControlName="date" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Location</label>
+            <input class="form-control"  ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)"  type="text" formControlName="location" required>
+            <input class="form-control hidden"  hidden [(ngModel)]="location" type="text" formControlName="location" required>
+            <input class="form-control hidden" hidden [(ngModel)]="coordinates" type="text" formControlName="coordinates">
+            
+            <p>Current Location:{{event.location}}</p>
+            <p>Current Cords:{{event.coordinates}}</p>
+            <div class="bg-primary text-white p5 m10"  *ngIf="location">
+                 <p>New Location:{{location}}</p>
+                <p>New Cords:{{coordinates}}</p>
+                <p>Please click "Save Changes" to update Event data</p>
+                </div>
+          </div>
+  
+          <div class="form-group mt10">
+
+            <button class="btn btn-primary btn-block" type="submit">Save Changes</button>
+          </div>
+        </form>
+    </div>
+  </div>

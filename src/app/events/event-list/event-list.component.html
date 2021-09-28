@@ -1,0 +1,70 @@
+<div  class="container">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h2 *ngIf="allEvents.length > 0" class="h2">Events List</h2>
+      <h2 *ngIf="allEvents.length == 0" class="h2">No events</h2>
+    </div>
+  
+    <div  *ngIf="allEvents.length > 0" class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Date</th>
+            <th scope="col">Location</th>
+            <th class="text-center" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of allEvents; let i = index">
+            <th scope="row">{{event._id}}</th>
+            <td>{{event.title}}</td>
+            <td>{{formatDate(event.date)}}</td>
+            <td>{{event.location}}</td>
+            <td class="text-center"> 
+              <button class="btn btn-sm btn-primary" (click)="getWeather(event.coordinates[0],event.coordinates[1],event) ; open(mymodal)">Get Weather</button>
+              <button class="btn btn-sm btn-primary" routerLink="/edit-event/{{event._id}}">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="delete(event._id, i)">Delete</button>
+          </tr>
+        </tbody>
+      </table>
+     
+   
+<ng-template  #mymodal let-modal>
+  <div *ngIf="weather" class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{eventcur.title}}</h4> <br />
+     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div   *ngIf="weather.daily"  class="modal-body">
+    <h5>Current</h5>
+    <p><b>{{eventcur.location}}</b></p>
+    <p>Temp: <b>{{weather.current.temp}} C</b></p>
+    <p>Feels like: <b>{{weather.current.feels_like}} C</b></p>
+    <p>Cluds: <b>{{weather.current.clouds}}</b></p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Temp Day</th>
+          <th scope="col">Temp Eve</th>
+          <th scope="col">Temp Max</th>
+         </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let day of weather.daily; let i = index">
+          <th scope="row">{{day.dt * 1000 | date: 'yyyy-MM-dd'}}</th>
+          <td>{{day.temp.day}} C</td>
+          <td>{{day.temp.eve}} C</td> 
+          <td>{{day.temp.max}} C</td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>
+    </div>
+  </div>

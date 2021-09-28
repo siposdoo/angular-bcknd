@@ -1,27 +1,29 @@
-import { Component , ChangeDetectorRef } from '@angular/core';
+import { OnInit,Component,ChangeDetectorRef } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
+
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class AppComponent {
-  title = 'angular-bcknd';
+export class DashboardComponent implements OnInit {
+  title = 'dashboard';
   user: CognitoUserInterface | undefined;
   authState: AuthState = AuthState.SignedOut;
-
+ 
    constructor(private ref: ChangeDetectorRef) {}
 
-  ngOnInit() {
+   ngOnInit() {
     onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData as CognitoUserInterface;
-    console.log(this.user)
       this.ref.detectChanges();
     })
   }
 
   ngOnDestroy() {
     return onAuthUIStateChange;
-  }
+  } 
+
 }
