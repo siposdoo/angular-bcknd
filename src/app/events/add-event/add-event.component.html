@@ -1,33 +1,42 @@
 <div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Title</label>
-            <input class="form-control" placeholder="Please enter title of event" type="text" formControlName="title" required>
-          </div>
-  
-          <div class="form-group">
-            <label>Date</label>
-            <input class="form-control" placeholder="Please enter date in format 2022-01-01..." type="text" formControlName="date" required>
-          </div>
-  
-          <div class="form-group">
-            <label>Location</label>
-            <input   ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)" class="form-control" placeholder="Please enter location of event" type="text" >
-            <input hidden  [(ngModel)]="coordinates" type="text" placeholder="cc" formControlName="coordinates">
+  <div class="col-md-4">
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-control" placeholder="Please enter title of event" type="text" formControlName="title"
+          required>
+      </div>
 
-            <input [(ngModel)]="location" hidden class="form-control" placeholder="Please enter date in format 2022-01-01..." type="text" formControlName="date" formControlName="location"  required>
+      <div class="form-group">
+        <label>Date</label>
+      </div>
+      <div class="input-group">
+        <input class="form-control" [minDate]="minPickerDate" placeholder="yyyy-mm-dd" name="dp"
+          (dateSelect)="onDateSelect($event)"   ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="d.toggle()" type="button">Pick a date</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)" class="form-control"
+          placeholder="Please enter location of event" type="text">
+        <input hidden [(ngModel)]="coordinates" type="text" placeholder="cc" formControlName="coordinates">
 
-          <div *ngIf="userAddress">
-            <p>Address: {{ userAddress }}</p>
-            <p>Latitude: {{ userLatitude }}</p>
-            <p>Longitude: {{ userLongitude }}</p>
-          </div>
-          </div>
-  
-          <div class="form-group">
-            <button class="btn btn-primary btn-block" type="submit">Add Event</button>
-          </div>
-        </form>
-    </div>
+        <input [(ngModel)]="location" hidden class="form-control"
+          placeholder="Please enter date in format 2022-01-01..." type="text" formControlName="date"
+          formControlName="location" required>
+
+        <div *ngIf="userAddress">
+          <p>Address: {{ userAddress }}</p>
+          <p>Latitude: {{ userLatitude }}</p>
+          <p>Longitude: {{ userLongitude }}</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit">Add Event</button>
+      </div>
+    </form>
   </div>
+</div>

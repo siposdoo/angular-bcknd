@@ -10,6 +10,7 @@ import { AddEventComponent } from './events/add-event/add-event.component';
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 import { EventsListComponent } from './events/event-list/event-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -29,7 +30,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     AmplifyUIAngularModule,
     ReactiveFormsModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    NgbModule
 
   ],
   providers: [],

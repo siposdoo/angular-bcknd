@@ -17,12 +17,17 @@ export class AddEventComponent implements OnInit {
   eventForm: FormGroup;
   user: CognitoUserInterface | undefined;
   authState: AuthState = AuthState.SignedOut;
-  userAddress: string = ''
-  userLatitude: string = ''
-  userLongitude: string = ''
-  location:String=''
-  coordinates:any
-
+  userAddress: string = '';
+  userLatitude: string = '';
+  userLongitude: string = '';
+  location: String = '';
+  datepicker: any;
+  coordinates: any;
+  minPickerDate = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate(),
+  };
   constructor(
     private ref: ChangeDetectorRef,
     public formBuilder: FormBuilder,
@@ -33,7 +38,7 @@ export class AddEventComponent implements OnInit {
     this.eventForm = this.formBuilder.group({
       title: [''],
       date: '',
-      coordinates:[],
+      coordinates: [],
       location: [''],
     });
   }
@@ -50,12 +55,27 @@ export class AddEventComponent implements OnInit {
     return onAuthUIStateChange;
   }
   handleAddressChange(address: any) {
-    this.userAddress = address.formatted_address
-    this.coordinates= [address.geometry.location.lat(),address.geometry.location.lng()]
-    this.userLatitude = address.geometry.location.lat()
-    this.userLongitude = address.geometry.location.lng()
-    this.location= this.userAddress
-     
+    this.userAddress = address.formatted_address;
+    this.coordinates = [
+      address.geometry.location.lat(),
+      address.geometry.location.lng(),
+    ];
+    this.userLatitude = address.geometry.location.lat();
+    this.userLongitude = address.geometry.location.lng();
+    this.location = this.userAddress;
+  }
+  onDateSelect(event: any) {
+    let year = event.year;
+    let month = event.month <= 9 ? '0' + event.month : event.month;
+    let day = event.day <= 9 ? '0' + event.day : event.day;
+    let finalDate = year + '-' + month + '-' + day;
+    console.log(finalDate);
+    this.eventForm.patchValue({
+      date:finalDate
+    });
+    console.log(this.eventForm);
+
+
   }
   onSubmit(): any {
     console.log(this.eventForm);

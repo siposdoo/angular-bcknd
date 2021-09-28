@@ -1,5 +1,5 @@
 <div class="row justify-content-center mt10">
-    <div class="col-md-2">
+    <div class="col-md-2 homediv">
         <amplify-authenticator *ngIf="authState !== 'signedin'"></amplify-authenticator>
         <div *ngIf="authState === 'signedin' && user" class="App">
             <amplify-sign-out></amplify-sign-out>
